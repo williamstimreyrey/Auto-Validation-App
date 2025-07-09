@@ -6,4 +6,4 @@ App for auto validating inventory for KOs
 pip install -r requirements.txt
 
 #### To bundle and create .exe run this in the same directory as app.py and utils.py:
-pyinstaller --onefile --noconsole --hidden-import utils.py app.py
+pyinstaller --onefile --noconsole --hidden-import utils.py main.py
