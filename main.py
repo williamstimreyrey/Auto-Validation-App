@@ -19,7 +19,7 @@ def make_file_selector(label, i):
         # checks to make sure there is actually a file path before using it
         if file_path:
             # sets label to the file path so user can visually verify they've selected the correct file
-            label.config(text=file_path)
+            label.configure(text=file_path)
             # sets the path in the paths list at the index to the retrieved file path
             paths[i] = file_path
     # returns the select file function to be used by the file selectors on the GUI
