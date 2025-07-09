@@ -10,6 +10,11 @@ paths = ['', '', '', '']
 # Define lists variable for storing the info from the inventory files
 lists = []
 
+# validate CIF function
+def validate_CIF(input):
+    # check to ensure input is either a digit with 7 characters or empty
+    return (input.isdigit() and len(input) == 7) or input == "" 
+
 # Function for creating a file selector takes in a label and index
 def make_file_selector(label, i):
     # function to select file
@@ -19,7 +24,7 @@ def make_file_selector(label, i):
         # checks to make sure there is actually a file path before using it
         if file_path:
             # sets label to the file path so user can visually verify they've selected the correct file
-            label.configure(text=file_path)
+            label.configure(text=os.sep.join(file_path.split(os.sep)[-2:]))
             # sets the path in the paths list at the index to the retrieved file path
             paths[i] = file_path
     # returns the select file function to be used by the file selectors on the GUI
@@ -60,7 +65,13 @@ def print_to_file(f, a, b):
 def run():
     # get user text input
     user_text = entry.get()
-    
+    # validate input CIF
+    valid_CIF = validate_CIF(user_text)
+
+    if not valid_CIF:
+        # if CIF is invalid show a messagebox and return so it does not save txt file
+        messagebox.showinfo("info","Please enter a valid CIF or leave field blank")
+        return
     # iterate through the user selected file paths
     for i in range(len(paths)):
         # if a path is missing, give the user a message box asking to select all file
@@ -71,7 +82,7 @@ def run():
         # call populate_list function to extract data from file and append that result to the list of file info
         lists.append(populate_list(paths[i]))
     # create file name for the txt file to include the CIF if the user entered one
-    file_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{user_text}{' ' if user_text else ''}Validation Report.txt")
+    file_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{f"{user_text} " if valid_CIF else ''}Validation Report.txt")
     # open txt file
     with open(file_name, "w") as f:
         # call print_to_file function passing the file reference with the new inventory indexes
