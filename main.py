@@ -1,9 +1,11 @@
-import customtkinter as ctk
 from tkinter import filedialog, messagebox
 from utils import populate_list, validate_stock_exists, vin_stock_matches, odom_matches
+from pathlib import Path
+import customtkinter as ctk
 import sys
 import os
 import subprocess
+
 
 # Define a paths list for the paths of the 4 files we will be reading with inventory info
 paths = ['', '', '', '']
@@ -24,7 +26,7 @@ def make_file_selector(label, i):
         # checks to make sure there is actually a file path before using it
         if file_path:
             # sets label to the file path so user can visually verify they've selected the correct file
-            label.configure(text=os.sep.join(file_path.split(os.sep)[-2:]))
+            label.configure(text=str(Path(*Path(file_path).parts[-2:])))
             # sets the path in the paths list at the index to the retrieved file path
             paths[i] = file_path
     # returns the select file function to be used by the file selectors on the GUI
